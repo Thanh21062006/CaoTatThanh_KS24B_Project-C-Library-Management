@@ -120,7 +120,7 @@ void showListBook(Book *book, int current){
 	
 	printf("\n\t\t\t\t\t\t******All book*******\n");
 	printf("|==========|==============================|==============================|==========|==========|====================|\n");
-	printf("|    %-6s|             %-17s|            %-18s| %-9s|  %-8s|   %-15s |\n", "Id", "Title", "Author", "Quantity", "Price", "Date publication");
+	printf("|    %-6s|             %-17s|            %-18s| %-9s|  %-8s|  %-18s|\n", "Id", "Title", "Author", "Quantity", "Price", "Date publication");
 	printf("|==========|==============================|==============================|==========|==========|====================|\n");
 	for(int i = 0; i < current; i++){
 		char rs[11];
