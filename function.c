@@ -393,22 +393,28 @@ char confirmExitOrBack() {
 
 void checkChar(char *value, int max, char *input) {
 	char value1[max+1];
-	do {
+	while(1) {
 		fflush(stdin);
 		printf("%s: ", input);
-		fgets(value1, max+1, stdin);
-		if (strlen(value1) == max) {
-			printf("Error character limit exceeded!\n");
-			continue;
-		}else if (strcmp(value1, "\n") == 0) {
-			printf("Do not enter empty!\n");
+		if (fgets(value1, sizeof(value1), stdin) == NULL) {
+			printf("Error!\n");
 			continue;
 		}
 		value1[strcspn(value1, "\n")] = '\0';
+				
+		if (strlen(value1) >= max) {
+			printf("Loi, vuot qua gioi han ki tu!\n");
+			continue;
+		}
+		
+		if(value1[0] == '\0'){
+			printf("Khong duoc de trong\n");
+			continue;
+		}
 		strcpy(value, value1);
 		break;
-	}while(1);
-}
+	}
+};
 
 void checkInt(int *value, char *input) {
 	int value1;
@@ -423,4 +429,4 @@ void checkInt(int *value, char *input) {
 		*value = value1;
 		break;
 	}while(1);	
-}
+};
