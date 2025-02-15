@@ -64,6 +64,8 @@ void showCustomersMenu(){
 	int choice;
 	
 	while(true){
+		system("cls");
+		
 		printf("\n========MENU BOOK========\n");
 		printf("1. Show list of customers\n");
 		printf("2. Add customers\n");
@@ -97,7 +99,15 @@ void showCustomersMenu(){
 			default:
 				printf("Invaild choice!\n");
 				break;			
-		}			
+		}
+		while (1) {
+			char answer = confirmExitOrBack();
+			if (answer == '0') {
+				return;
+			}else if (answer == 'b') {
+				break;
+			}
+		}
 	}	
 };
 
@@ -291,7 +301,7 @@ void deleteBook(Book *book, int *current){
 						book[j] = book[j+1];
 					}
 					(*current)--;
-					printf("\nDelete Successfully\n"); //Xóa thanh cong
+					printf("\nDelete Successfully\n"); //XÃ³a thanh cong
 					return;
 				default:
 					printf("\nChoose 0 or 1!\n");
