@@ -164,11 +164,9 @@ void openFile(){
 };
 
 void addBook(Book *book, int *current){
-{
-    int check = 1;
-    do {
+    while(1) {
         char id[10];
-        checkChar(id, 10, "enter the id");
+        checkChar(id, 11, "enter the id");
             
         int checkId = 0; 
         for(int i = 0; i < *current; i++){
@@ -182,39 +180,38 @@ void addBook(Book *book, int *current){
             continue; 
         } else {
             strcpy(book[*current].bookid, id);
+            break;
+        }
+    }    
+    while(1){
+        char title[30];
+        checkChar(title, 29, "enter the title");
 
-            char title[30];
-            checkChar(title, 30, "enter the title");
-
-            int checkTitle = 0;
-            for(int i = 0; i < *current; i++){
-                if(strcmp(title, book[i].title) == 0){
-                    checkTitle = 1;
-                    break;
-                }
-            }
-            if(checkTitle){
-                printf("\nTitle cannot be duplicated!\n");
-                continue;
-            } else {
-                strcpy(book[*current].title, title);
-                checkChar(book[*current].author, 30, "enter the author");
-                checkInt(&book[*current].quantity, "enter the quantity");
-                checkInt(&book[*current].price, "enter the price");
-                checkInt(&book[*current].publication.day, "enter the Day");
-                checkInt(&book[*current].publication.month, "enter the Month");
-                checkInt(&book[*current].publication.year, "enter the Year");
-
-                (*current)++;
-
-                printf("\nSuccessfully added book\n");
+        int checkTitle = 0;
+        for(int i = 0; i < *current; i++){
+            if(strcmp(title, book[i].title) == 0){
+                checkTitle = 1;
                 break;
             }
         }
-    } while(check);
-}
-		
+        if(checkTitle){
+            printf("\nTitle cannot be duplicated!\n");
+            continue;
+        } else {
+            strcpy(book[*current].title, title);
+            checkChar(book[*current].author, 29, "enter the author");
+            checkInt(&book[*current].quantity, "enter the quantity");
+            checkInt(&book[*current].price, "enter the price");
+            checkInt(&book[*current].publication.day, "enter the Day");
+            checkInt(&book[*current].publication.month, "enter the Month");
+            checkInt(&book[*current].publication.year, "enter the Year");
+
+            (*current)++;
+            break;
+        }			
+    } 	
 	saveFile();
+	printf("\nSuccessfully added book\n");
 	return;
 };
 
@@ -235,30 +232,35 @@ void fixBook(Book *book, int current){
 	if(checkId){
 		printf("\nid does not exist!\n"); //id khong ton tai
 	}else{
-		showBook(book, i);
-		printf("\n");
-		
-		printf("enter the title: ");
-		fgets(book[i].title,30,stdin);
-		book[i].title[strcspn(book[i].title, "\n")] = '\0';
-		printf("enter the author: ");
-		fgets(book[i].author,30,stdin);
-		book[i].author[strcspn(book[i].author, "\n")] = '\0';
-		printf("enter the quantity: ");
-		fflush(stdin);
-		scanf("%d", &book[i].quantity);
-		printf("enter the price: ");
-		scanf("%d", &book[i].price);	
-		printf("enter the Day: ");
-		scanf("%d", &book[i].publication.day);
-		printf("enter the month: ");
-		scanf("%d", &book[i].publication.month);
-		printf("enter the year: ");
-		scanf("%d", &book[i].publication.year);	
-		
-		printf("\nfix success!\n"); //sua thanh cong
+	    while(1){
+	        char title[30];
+	        checkChar(title, 29, "enter the title");
+	
+	        int checkTitle = 0;
+	        for(int j = 0; j < current; j++){
+	            if(strcmp(title, book[j].title) == 0){
+	                checkTitle = 1;
+	                break;
+	            }
+	        }
+	        if(checkTitle){
+	            printf("\nTitle cannot be duplicated!\n");
+	            continue;
+	        } else {
+	            strcpy(book[i].title, title);
+	            checkChar(book[i].author, 29, "enter the author");
+	            checkInt(&book[i].quantity, "enter the quantity");
+	            checkInt(&book[i].price, "enter the price");
+	            checkInt(&book[i].publication.day, "enter the Day");
+	            checkInt(&book[i].publication.month, "enter the Month");
+	            checkInt(&book[i].publication.year, "enter the Year");
+	            
+	            break;
+	        }
+	    }			
 	}
 	saveFile();
+	printf("\nfix success!\n"); //sua thanh cong
 	return;	
 };
 
