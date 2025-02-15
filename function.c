@@ -403,12 +403,12 @@ void checkChar(char *value, int max, char *input) {
 		value1[strcspn(value1, "\n")] = '\0';
 				
 		if (strlen(value1) >= max) {
-			printf("Loi, vuot qua gioi han ki tu!\n");
+			printf("Error, exceeding character limit!\n");
 			continue;
 		}
 		
 		if(value1[0] == '\0'){
-			printf("Khong duoc de trong\n");
+			printf("cannot be left blank!\n");
 			continue;
 		}
 		strcpy(value, value1);
