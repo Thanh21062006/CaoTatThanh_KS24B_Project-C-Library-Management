@@ -6,6 +6,7 @@
 Book books[MAX];
 
 void showBookMenu(){
+	system("color e");
 	int choice;
 	
 	while(true){
@@ -61,6 +62,7 @@ void showBookMenu(){
 };
 
 void showCustomersMenu(){
+	system("color e");
 	int choice;
 	
 	while(true){
@@ -133,8 +135,8 @@ void showListBook(Book *book, int current){
 };
 
 
-void saveFile(){
-	FILE *fileBook = fopen("book.bin","wb");
+void saveFile(char *filePath){
+	FILE *fileBook = fopen(filePath,"wb");
 	if(fileBook == NULL){
 		printf("Cannot open file!");
 		exit(1);
@@ -148,8 +150,8 @@ void saveFile(){
 	fclose(fileBook);
 };
 
-void openFile(){
-	FILE *fileBook = fopen("book.bin","rb");
+void openFile(char *filePath){
+	FILE *fileBook = fopen(filePath,"rb");
 	if(fileBook == NULL){
 		printf("Cannot open file!");
 		exit(1);
@@ -210,7 +212,7 @@ void addBook(Book *book, int *current){
             break;
         }			
     } 	
-	saveFile();
+	saveFile("book.bin");
 	printf("\nSuccessfully added book\n");
 	return;
 };
@@ -259,7 +261,7 @@ void fixBook(Book *book, int current){
 	        }
 	    }			
 	}
-	saveFile();
+	saveFile("book.bin");
 	printf("\nfix success!\n"); //sua thanh cong
 	return;	
 };
@@ -303,6 +305,7 @@ void deleteBook(Book *book, int *current){
 						book[j] = book[j+1];
 					}
 					(*current)--;
+					saveFile("book.bin");
 					printf("\nDelete Successfully\n"); //Xóa thanh cong
 					return;
 				default:
@@ -310,10 +313,7 @@ void deleteBook(Book *book, int *current){
 					break;		
 			}
 		}
-
 	}
-	saveFile();
-	return;	
 };
 
 void searchBook(Book *book, int current){
