@@ -22,7 +22,7 @@ void checkInt(int *value, char *input);
 
 
 //file
-void saveFile();
-void openFile();
+void saveFile(char *filePath);
+void openFile(char *filePath);
 
 char confirmExitOrBack();
