@@ -460,38 +460,6 @@ void showCustomersMenu(){
 	}	
 };
 
-void saveFileMember(char *filePath){
-	FILE *fileMember = fopen(filePath,"wb");
-	if(fileMember == NULL){
-		printf("Cannot open file!");
-		exit(1);
-	}
-	
-	fwrite(&count, sizeof(int), 1, fileMember);
-	
-	if(current > 0){
-		fwrite(&members, sizeof(members), current, fileMember);	
-	}
-	fclose(fileMember);
-	return;
-};
-
-void openFileMember(char *filePath){
-	FILE *fileMember = fopen(filePath,"rb");
-	if(fileMember == NULL){
-		printf("Cannot open file!");
-		exit(1);
-	}
-	
-	fread(&current, sizeof(int), 1, fileMember);
-	
-	if(current > 0){
-		fread(&books, sizeof(books), current, fileMember);	
-	}
-	fclose(fileMember);
-	return;
-};
-
 void addMember(Member *member, int *count){
     while(1) {
         char id[11];
