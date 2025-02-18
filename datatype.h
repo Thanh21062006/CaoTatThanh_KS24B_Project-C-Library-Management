@@ -1,8 +1,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#define MAX 100
-#define MAX_LENGTH 100
+#define MAX_BOOK 100
+#define MAX_MEMBR 100
 
 typedef struct {
 	int month,day,year;
@@ -21,6 +21,6 @@ typedef struct {
 	char memberId[10];
 	char name[20];
 	char phone[10];
-	bool status; // tinh trang
-	Book Borrowedbooks[]; // Sach muon
+	int status; // tinh trang
+	Book Borrowedbooks[10]; // Sach muon
 } Member;
