@@ -25,4 +25,12 @@ void checkInt(int *value, char *input);
 void saveFile(char *filePath);
 void openFile(char *filePath);
 
+//Member
+void saveFileMember(char *filePath);
+void openFileMember(char *filePath);
+void showListMember(Member *member, int count);
+void addMember(Member *member, int *count);
+void fixMember(Member *member, int count);
+void searchMember(Member *member, int count);
+
 char confirmExitOrBack();
