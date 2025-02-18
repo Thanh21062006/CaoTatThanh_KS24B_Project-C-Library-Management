@@ -2,8 +2,10 @@
 #include <string.h>
 #include "function.h"
 #include <stdlib.h>
- int current = 0;
-Book books[MAX];
+int current = 0, count = 0;
+Book books[MAX_BOOK];
+Member members[MAX_MEMBR];
+
 
 void showBookMenu(){
 	system("color e");
@@ -61,66 +63,15 @@ void showBookMenu(){
 	}
 };
 
-void showCustomersMenu(){
-	system("color e");
-	int choice;
-	
-	while(true){
-		system("cls");
-		
-		printf("\n========MENU BOOK========\n");
-		printf("1. Show list of customers\n");
-		printf("2. Add customers\n");
-		printf("3. Edit customers information\n");
-		printf("4. lock (unlock) customers\n");
-		printf("5. Search customers by name\n");
-		printf("6. Book lending\n");  //Cho muon sach
-		printf("7. Return borrowed books\n");  //Tra lai sach da muon
-		printf("8. Return\n");
-		
-		printf("Enter the choice: ");
-		scanf("%d", &choice);
-		switch(choice){
-				
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			case 8:
-				return;
-			default:
-				printf("Invaild choice!\n");
-				break;			
-		}
-		while (1) {
-			char answer = confirmExitOrBack();
-			if (answer == '0') {
-				return;
-			}else if (answer == 'b') {
-				break;
-			}
-		}
-	}	
-};
-
 //10,30,30,10,10,20.
 void showListBook(Book *book, int current){
 	FILE *file = fopen("book.bin","rb");
 	if(file == NULL){
 		printf("Cannot open file!");
+		return;
 	}
 	
-	printf("\n\t\t\t\t\t\t******All book*******\n");
+	printf("\n\t\t\t\t\t\t*******All book*******\n");
 	printf("|==========|==============================|==============================|==========|==========|====================|\n");
 	printf("|    %-6s|             %-17s|            %-18s| %-9s|  %-8s|  %-18s|\n", "Id", "Title", "Author", "Quantity", "Price", "Date publication");
 	printf("|==========|==============================|==============================|==========|==========|====================|\n");
@@ -132,6 +83,7 @@ void showListBook(Book *book, int current){
 		printf("|----------|------------------------------|------------------------------|----------|----------|--------------------|\n");
 	}
 	fclose(file);
+	return;
 };
 
 
@@ -148,6 +100,7 @@ void saveFile(char *filePath){
 		fwrite(&books, sizeof(books), current, fileBook);	
 	}
 	fclose(fileBook);
+	return;
 };
 
 void openFile(char *filePath){
@@ -163,6 +116,7 @@ void openFile(char *filePath){
 		fread(&books, sizeof(books), current, fileBook);	
 	}
 	fclose(fileBook);
+	return;
 };
 
 void addBook(Book *book, int *current){
@@ -314,6 +268,7 @@ void deleteBook(Book *book, int *current){
 			}
 		}
 	}
+	return;
 };
 
 void searchBook(Book *book, int current){
@@ -406,7 +361,6 @@ void checkChar(char *value, int max, char *input) {
 			printf("Error, exceeding character limit!\n");
 			continue;
 		}
-		
 		if(value1[0] == '\0'){
 			printf("cannot be left blank!\n");
 			continue;
@@ -429,4 +383,204 @@ void checkInt(int *value, char *input) {
 		*value = value1;
 		break;
 	}while(1);	
+};
+
+//member
+void showListMember(Member *member, int count){
+    FILE *fileMember = fopen("member.bin", "rb");
+    if(fileMember == NULL){
+        printf("Cannot open file!\n");
+        return;
+    }
+
+    printf("\n\t\t\t\t*******All member*******\n");
+    printf("|==========|==============================|==============================|==========|\n");
+    printf("|    %-6s|             %-17s|            %-18s| %-9s|\n", "Id", "Name", "Phone", "Status");
+    printf("|==========|==============================|==============================|==========|\n");
+    for(int i = 0; i < count; i++){
+        printf("|%-10s|%30s|%30s|%10s|\n", member[i].memberId, member[i].name, member[i].phone, member[i].status ? "Dang hoat dong":"Da khoa");
+        printf("|----------|------------------------------|------------------------------|----------|\n");      
+    }
+    fclose(fileMember);
+}
+
+void showCustomersMenu(){
+	system("color e");
+	int choice;
+	
+	while(true){
+		system("cls");
+		
+		printf("\n========MENU MEMBER========\n");
+		printf("1. Show list of customers\n");
+		printf("2. Add customers\n");
+		printf("3. Edit customers information\n");
+		printf("4. lock (unlock) customers\n");
+		printf("5. Search customers by name\n");
+		printf("6. Book lending\n");  //Cho muon sach
+		printf("7. Return borrowed books\n");  //Tra lai sach da muon
+		printf("8. Return\n");
+		
+		printf("Enter the choice: ");
+		scanf("%d", &choice);
+		switch(choice){
+				
+			case 1:
+				showListMember(members, count);
+				break;
+			case 2:
+				addMember(members, &count);
+				break;
+			case 3:
+				fixMember(members, count);
+				break;
+			case 4:
+				break;
+			case 5:
+				searchMember(members, count);
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+			case 8:
+				return;
+			default:
+				printf("Invaild choice!\n");
+				break;			
+		}
+		while (1) {
+			char answer = confirmExitOrBack();
+			if (answer == '0') {
+				return;
+			}else if (answer == 'b') {
+				break;
+			}
+		}
+	}	
+};
+
+void saveFileMember(char *filePath){
+	FILE *fileMember = fopen(filePath,"wb");
+	if(fileMember == NULL){
+		printf("Cannot open file!");
+		exit(1);
+	}
+	
+	fwrite(&count, sizeof(int), 1, fileMember);
+	
+	if(current > 0){
+		fwrite(&members, sizeof(members), current, fileMember);	
+	}
+	fclose(fileMember);
+	return;
+};
+
+void openFileMember(char *filePath){
+	FILE *fileMember = fopen(filePath,"rb");
+	if(fileMember == NULL){
+		printf("Cannot open file!");
+		exit(1);
+	}
+	
+	fread(&current, sizeof(int), 1, fileMember);
+	
+	if(current > 0){
+		fread(&books, sizeof(books), current, fileMember);	
+	}
+	fclose(fileMember);
+	return;
+};
+
+void addMember(Member *member, int *count){
+    while(1) {
+        char id[11];
+        checkChar(id, 11, "enter the id");
+            
+        int checkId = 0; 
+        for(int i = 0; i < *count; i++){
+            if(strcmp(id, member[i].memberId) == 0){
+                checkId = 1;
+                break;                                        
+            } 
+        }
+        if(checkId){
+            printf("\nid cannot be duplicated!\n");
+            continue; 
+        } else {
+            strcpy(member[*count].memberId, id);
+            break;
+        }
+    }
+    checkChar(member[*count].name, 19, "enter the name");
+    while(1){
+        char phone[10];
+        checkChar(phone, 11, "enter the phone");
+
+        int checkPhone = 0;
+        for(int i = 0; i < *count; i++){
+            if(strcmp(phone, member[i].phone) == 0){
+                checkPhone = 1;
+                break;
+            }
+        }
+        if(checkPhone){
+            printf("\nPhone cannot be duplicated!\n");
+            continue;
+        } else {
+            strcpy(member[*count].phone, phone);
+            member[*count].status = 0;
+            (*count)++;
+            break;
+        }			
+    } 
+	saveFileMember("member.bin");
+	printf("\nSuccessfully added book\n");
+	return;	
+};
+
+void fixMember(Member *member, int count){
+	char id[10];
+	int i = 0;
+	printf("enter the id: ");
+	fflush(stdin);
+	fgets(id, 10, stdin);
+	id[strcspn(id,"\n")] = '\0';
+	int checkId = 1;
+	for(; i < count; i++){
+		if(strcmp(id, member[i].memberId) == 0){
+			checkId = 0;
+			break;										
+		} 
+	}
+	if(checkId){
+		printf("\nid does not exist!\n"); //id khong ton tai
+	}else{
+	    checkChar(member[i].name, 19, "enter the name");
+	    checkChar(member[i].phone, 11, "enter the phone");
+	    member[i].status = 0;
+	}
+	saveFileMember("member.bin");
+	printf("\nfix success!\n"); //sua thanh cong
+	return;			
+};
+
+void searchMember(Member *member, int count){
+	char name[20];
+	printf("Enter the title: ");
+	fflush(stdin);
+	fgets(name, 20, stdin);
+	name[strcspn(name,"\n")] = '\0';	
+	
+	printf("\n\t\t\t\t*******All member*******\n");
+	printf("|==========|==============================|==============================|==========|\n");
+	printf("|    %-6s|             %-17s|            %-18s| %-9s|\n", "Id", "Name", "Phone", "Status");
+	printf("|==========|==============================|==============================|==========|\n");	
+	for(int i = 0; i < count; i++){
+		if(strstr(member[i].name,name) != NULL){
+			printf("|%-10s|%30s|%30s|%10s|\n", member[i].memberId, member[i].name, member[i].phone, member[i].status ? "Dang hoat dong":"Da khoa");
+			printf("|----------|------------------------------|------------------------------|----------|\n");	
+		}
+	}
+	return;
 };
