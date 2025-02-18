@@ -7,7 +7,6 @@
 
 int main() {
 	openFile("book.bin");
-	openFileMember("member.bin");
 	char username[20], password[20], temp = 'l';
 	int choice = 0, size = 0;
 	FILE *admin = fopen("Admin.txt", "r");
